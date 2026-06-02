@@ -43,18 +43,14 @@ export function parseCsv(text: string): SheetRow[] {
     } else if (char === "," && !inQuotes) {
       row.push(cell.trim());
       cell = "";
-    } else if ((char === "
-" || char === "
-") && !inQuotes) {
+    } else if ((char === "\n" || char === "\r") && !inQuotes) {
       if (cell.length > 0 || row.length > 0) {
         row.push(cell.trim());
         rows.push(row);
         row = [];
         cell = "";
       }
-      if (char === "
-" && next === "
-") i += 1;
+      if (char === "\r" && next === "\n") i += 1;
     } else {
       cell += char;
     }
@@ -157,3 +153,4 @@ export async function loadSheetData(): Promise<SheetData> {
     checklist: toChecklist(checklistRows),
   };
 }
+
